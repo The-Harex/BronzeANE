@@ -1,15 +1,55 @@
-import React from 'react';
-import { uploadSource } from '@/app/actions';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function NewSourcePage() {
+  const router = useRouter();
+  const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsUploading(true);
+    setError(null);
+
+    const formData = new FormData(event.currentTarget);
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Upload failed: ${response.statusText}`);
+      }
+
+      // Redirect on success
+      router.push('/admin');
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+      setError('An error occurred during upload. Please try again.');
+    } finally {
+      setIsUploading(false);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-slate-900 text-white p-8">
       <div className="max-w-3xl mx-auto">
         <Link href="/admin" className="text-emerald-400 hover:text-emerald-300 mb-6 inline-block">&larr; Back to Dashboard</Link>
         <h1 className="text-3xl font-bold mb-8 text-white">Upload New Source</h1>
         
-        <form action={uploadSource} className="space-y-6 bg-slate-800 p-8 rounded-xl shadow-lg border border-slate-700">
+        {error && (
+          <div className="bg-red-500/10 border border-red-500 text-red-500 p-4 rounded mb-6">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6 bg-slate-800 p-8 rounded-xl shadow-lg border border-slate-700">
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-slate-300 mb-2">Title</label>
             <input 
@@ -61,9 +101,10 @@ export default function NewSourcePage() {
           <div className="flex gap-4">
             <button 
               type="submit" 
-              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded transition duration-200"
+              disabled={isUploading}
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Upload Source
+              {isUploading ? 'Uploading...' : 'Upload Source'}
             </button>
             <Link
               href="/admin"
