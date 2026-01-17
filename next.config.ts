@@ -7,9 +7,6 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '100mb',
     },
   },
-  serverActions: {
-    bodySizeLimit: '100mb',
-  },
 };
 
 export default nextConfig;
