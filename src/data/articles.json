@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1768603758991",
+    "title": "Test battle",
+    "category": "history",
+    "summary": "Test text",
+    "content": "Test text",
+    "createdAt": "2026-01-16T22:49:18.991Z",
+    "period": "Early Bronze Age"
+  },
+  {
+    "id": "1768606553956",
+    "title": "TEst middle",
+    "category": "history",
+    "period": "Middle Bronze Age",
+    "summary": "asdfsdfasdfasdf",
+    "content": "asfasfsadfasfasdfs",
+    "createdAt": "2026-01-16T23:35:53.956Z"
+  },
+  {
+    "id": "1768606569180",
+    "title": "TEst latet",
+    "category": "history",
+    "period": "Late Bronze Age",
+    "summary": "afasdfas",
+    "content": "asffsdf",
+    "createdAt": "2026-01-16T23:36:09.180Z"
+  }
+]
